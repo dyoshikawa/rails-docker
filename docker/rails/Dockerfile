@@ -8,12 +8,11 @@ RUN gem install bundler
 RUN apk add -U libxml2-dev libxslt-dev libstdc++ tzdata mariadb-client-libs nodejs ca-certificates \
                build-base mariadb-dev ruby-dev bash
 RUN gem install rails
-RUN rails new rails-pre -d mysql
-RUN cd /rails-pre \
- && bundle install --path=vendor/bundle
-RUN mkdir /rails-app
-WORKDIR /rails-pre
+RUN rails new rails-app -d mysql
+WORKDIR /rails-app
+RUN cp /rails-app -R /rails-pre
 
 ADD docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod 777 /docker-entrypoint.sh
+USER dockeruser
 ENTRYPOINT ["bash", "/docker-entrypoint.sh"]
