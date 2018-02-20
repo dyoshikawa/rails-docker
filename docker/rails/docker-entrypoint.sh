@@ -7,6 +7,8 @@ else
     sudo rmdir /rails-pre
 fi
 sudo bundle install --path=vendor/bundle
-sudo bundle install --binstubs
+sudo bundle config --delete bin
+sudo rails app:update:bin
+sudo bundle exec rails g
 sudo chown -R 1000:1000 /rails-app
 rails s -b 0.0.0.0
