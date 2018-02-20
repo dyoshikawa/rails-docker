@@ -1,0 +1,19 @@
+version: '3'
+services:
+  rails:
+    build: ./rails
+      context: ./
+    container_name: rails_rails
+    volumes:
+      - ../rails-source:/rails-app:cached
+    links:
+      - mysql
+  mysql:
+    build:
+      context: ./mysql
+    container_name: rails_mysql
+    volumes:
+      - ./data-volumes/mysql/var-lib-mysql:/var/lib/mysql:cached
+    env_file: .env
+    ports:
+      - "3306:3306"
