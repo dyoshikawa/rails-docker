@@ -12,9 +12,8 @@ RUN rails new rails-pre -d mysql
 RUN cd /rails-pre \
  && bundle install --path=vendor/bundle
 RUN mkdir /rails-app
-WORKDIR /rails-app
+WORKDIR /rails-pre
 
-COPY docker-entrypoint.sh /
-RUN chmod 777 docker-entrypoint.sh
-USER dockeruser
-ENTRYPOINT ["bash", "docker-entrypoint.sh"]
+ADD docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod 777 /docker-entrypoint.sh
+ENTRYPOINT ["bash", "/docker-entrypoint.sh"]
