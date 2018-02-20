@@ -1,8 +1,8 @@
 version: '3'
 services:
   rails:
-    build: ./rails
-      context: ./
+    build:
+      context: ./rails
     container_name: rails_rails
     volumes:
       - ../rails-source:/rails-app:cached
