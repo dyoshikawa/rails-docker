@@ -1,18 +1,21 @@
 FROM ruby:alpine
 
-RUN adduser -D -s /bin/sh -u 1000 dockeruser
-RUN apk add -U sudo \
- && echo 'dockeruser ALL=(ALL:ALL) NOPASSWD:ALL' >> /etc/sudoers
+# install bash
+RUN apk add -U bash
 
+# install bundler
 RUN gem install bundler
-RUN apk add -U libxml2-dev libxslt-dev libstdc++ tzdata mariadb-client-libs nodejs ca-certificates \
-               build-base mariadb-dev ruby-dev bash
-RUN gem install rails
-RUN rails new rails-app -d mysql
-WORKDIR /rails-app
-RUN cp /rails-app -R /rails-pre
 
+# install rails
+RUN apk add libxml2-dev libxslt-dev libstdc++ tzdata mariadb-client-libs nodejs ca-certificates \
+            build-base mariadb-dev ruby-dev
+RUN gem install rails --no-rdoc --no-ri
+
+# create rails project
+RUN rails new rails-app -d mysql --skip-bundle
+WORKDIR /rails-app
+RUN cp -R /rails-app /rails-pre
+
+# setup entrypoint
 ADD docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod 777 /docker-entrypoint.sh
-USER dockeruser
-ENTRYPOINT ["bash", "/docker-entrypoint.sh"]
+RUN chmod +x /docker-entrypoint.sh

@@ -4,18 +4,19 @@ services:
     build:
       context: ./rails
     container_name: rails_rails
+    command: bash /docker-entrypoint.sh
     ports:
       - "3000:3000"
-#    volumes:
-#      - ../rails-source:/rails-app:cached
+    volumes:
+      - ../rails-source:/rails-app:cached
     links:
       - mysql
   mysql:
     build:
       context: ./mysql
     container_name: rails_mysql
-#    volumes:
-#      - ./data-volumes/mysql/var-lib-mysql:/var/lib/mysql:cached
+    volumes:
+      - ./data-volumes/mysql/var-lib-mysql:/var/lib/mysql:cached
     env_file: .env
     ports:
       - "3306:3306"
