@@ -19,3 +19,5 @@ RUN cp -R /rails-app /rails-pre
 # setup entrypoint
 ADD docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
+
+EXPOSE 3000
